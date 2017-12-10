@@ -1,0 +1,19 @@
+<view class="card--outer">
+  <view class="card--front" style="transform: rotateY({{ flipped ? '180' : '0'}}deg)">
+    <view class="card--photo" style="background-image: url({{card.img_url}})"></view>
+    <view class="card--info">
+      <view class="card--info__title">{{card.name}}</view>
+      <view class="card--info__subtitle">{{card.name}}</view>
+      <image class="card--info__question" src="../../images/questionmark.svg" bindtap="flipCard"></image>
+    </view>
+  </view>
+  <view class="card--back" style="transform: rotateY({{flipped ? '0' : '-179'}}deg);" bindtap="flipCard">
+    <image class="card--back__exit" src="../../images/cross.svg"/>
+    <view class="card--back__thumbnail" style="background-image: url({{card.img_url}});"></view>
+    <view class="card--back__title-box">
+      <view class="card--back__title">{{card.name}}</view>
+      <view class="card--back__subtitle">{{card.name}}</view>
+    </view>
+    <view class="card--back__body-text" style="opacity: {{flipped ? '1' : '0'}};">{{card.body_text}}</view>
+  </view>
+</view>

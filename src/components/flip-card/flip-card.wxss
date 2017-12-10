@@ -1,0 +1,137 @@
+.card--outer{
+  width:85%;
+  margin:0 auto;
+  /*border-radius: 8px;*/
+  /*overflow:hidden;*/
+  -webkit-perspective: 600px;
+  perspective: 600px;
+}
+
+
+
+.card--front{
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  border-radius: 8px;
+  overflow:hidden;
+/*  position: absolute;
+  top: 0;
+  left: 0;*/
+  /*width: inherit;*/
+  /*height: inherit;*/
+  z-index: 900;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.20);
+  transition: all 0.3s ease-in-out;
+}
+
+.card--back{
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  float: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 800;
+  border-radius: 8px;
+  overflow:hidden;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.20);
+  transform: rotateY(-179deg);
+  padding:20px;
+  background-image: linear-gradient(43deg, #C189A1 0%, #B86B9A 40%, #BB94A4 73%, #A37FBD 100%);
+  text-align: left;
+}
+
+.card--info__question, .card--back__exit{
+  position: absolute;
+  /*border-radius: 50%;*/
+  width: 20px;
+  height: 20px;
+  color: #BDC2C4;
+  top:12px;
+  right:8px;
+  text-align:center;
+  font-size: 16px;
+  padding:2px;
+  font-weight: 300;
+}
+
+.card--photo{
+  background-size: 110%;
+  background-position: center;
+  padding-top: 60%;
+  width: 100%;
+}
+
+.card--info{
+  background-color: #FFFFFF;
+  padding:15px;
+  width: 100%;
+  line-height:1;
+  color: #32312F;
+  text-align: left;
+  box-sizing:border-box;
+  position: relative;
+}
+
+.card--info__title{
+  color: #32312F;
+  opacity: 1;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.card--info__subtitle{
+  font-size: 14px;
+  opacity: 1;
+  color: #BDC2C4;
+}
+
+.card--back__exit{
+}
+
+.card--back__title-box{
+  display: inline-block;
+  padding: 0px 10px;
+  vertical-align:top;
+}
+.card--back__title{
+  font-family: Helvetica;
+  font-size: 18px;
+  color: #FFFFFF;
+  margin-bottom: 10px;
+}
+
+.card--back__subtitle{
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  color: #FFFFFF;
+}
+
+.card--back__thumbnail{
+  width:94px;
+  height:58px;
+  background-size:103%;
+  background-position: center;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.card--back__body-text{
+  margin-top: 15px;
+  font-size: 14px;
+  font-weight: 300;
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  color: #FFFFFF;
+  letter-spacing: 0;
+  line-height: 22px;
+  overflow: scroll;
+  height: 140px;
+  transition: all 0.4s ease;
+  transition-delay: 0.1s;
+}

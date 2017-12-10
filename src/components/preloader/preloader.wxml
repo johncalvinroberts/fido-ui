@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="preloader-outer {{className}}">
+    <view class="preloader-inner"></view>
+    <view class="preloader-spinner">
+      <view class="preloader-second-spinner"></view>
+    </view>
+    <view class="preloader-text">
+      {{loadingText}}
+    </view>
+  </view>
+</view>
