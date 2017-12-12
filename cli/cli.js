@@ -4,7 +4,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const commander = require('commander')
 const chalk = require('chalk')
-const vorpal = require('vorpal')
+const vorpal = require('vorpal')()
 const log = console.log
 
 
@@ -13,7 +13,17 @@ function initFido () {
           new fido project!!!🐶🐶
           hehehehe
     `)
-
+  vorpal
+    .delimiter('fido$')
+    .show()
+    .prompt({
+            type: 'input',
+            name: 'shopName',
+            message: 'Name of the shop you want to download from: '
+    })
+    .then(res =>{
+      console.log(res)
+    })
 }
 
 
