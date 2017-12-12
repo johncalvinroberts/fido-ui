@@ -7,11 +7,13 @@ const chalk = require('chalk')
 const vorpal = require('vorpal')
 const log = console.log
 
+
 function initFido () {
   log(chalk.green`
           new fido project!!!🐶🐶
-          heheheh
+          hehehehe
     `)
+
 }
 
 
@@ -24,25 +26,33 @@ function generateComp (compName) {
 }
 
 //declare commander format
-commander.usage('[command] <options ...>')
+commander
+  .version('0.0.1')
+  .usage('[command] <options ...>')
 
-commander.
-  command('init')
+
+//init command, for when adding fido to your project
+commander
+  .command('init')
   .description('add fido to your project')
   .action(name => {
     initFido()
 })
+
+//Generate a page from a UI preset
 commander
   .command('page <pageName> <pagePreset>')
   .description('Generate a new page from a fido preset')
   .action(pageName => {
-  generatePage(pageName)
+    generatePage(pageName)
 })
+
+//Generate a component to add to your project
 commander
   .command('component <compName> <compPreset>')
   .description('Generate a new page from a fido preset')
   .action(compName => {
-  generateComp(compName)
+    generateComp(compName)
 })
 
 
