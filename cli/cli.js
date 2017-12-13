@@ -18,6 +18,7 @@ vorpal
   .description('Initialize a fido project.')
   .action(function(args, callback) {
       log(chalk.green`
+              汪汪汪
               new fido project!!! 🐶 🐶
               Let's generate the base styles first.
         `)
@@ -32,9 +33,13 @@ vorpal
 
 
 vorpal
-  .command('page <pageName> <pagePreset>')
+  .command('page <pageName>')
   .description('Generate a new page from a fido preset')
   .action(function(pageName) {
+    log(`
+          汪汪
+          Creating a new page named ${pageName}
+      `)
     this.prompt({
       type: 'list',
       name: 'pagePreset',
@@ -42,24 +47,28 @@ vorpal
         name: `${page.title} | ${page.name} | ${page.id}`,
         value: page.id
       })),
-      message: 'Please choose the page preset you want'
+      message: 'Please choose the page preset: '
     })
     .then(result => log(result))
     .catch(error => chalk.error(log(error)))
 })
 
 vorpal
-    .command('component <compName> <compPreset>')
+    .command('component <compName>')
     .description('Generate a new component from a fido preset')
     .action(function(compName) {
+      log(`
+            汪
+            Creating a new component named ${compName}
+        `)
       this.prompt({
         type: 'list',
         name: 'compPreset',
-        choices: componentPresets.map((style) => ({
+        choices: componentPresets.map((comp) => ({
           name: `${comp.title} | ${comp.name} | ${comp.id}`,
           value: comp.id
         })),
-        message: 'Please choose the component preset you want'
+        message: 'Please choose the component preset: '
       })
       .then(result => log(result))
       .catch(error => chalk.error(log(error)))
@@ -71,8 +80,7 @@ vorpal
 //parse the node TTY instance into vorpal
 vorpal
   .version('0.0.1')
-  .description('Fido command line tool for wechat mini programs')
-  .delimiter('fido$')
+  .delimiter('')
   .show()
   .parse(process.argv)
 
