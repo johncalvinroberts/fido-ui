@@ -1,6 +1,6 @@
 /*
   Creates the base styles in app.wxss and a fido config file.
-  Fido config wil be used for compiling styles on other components added to the project.
+  Fido config will be used for compiling styles on other components added to the project.
 */
 const compileStyles = require('./compile-styles')
 const fs = require('fs-extra')

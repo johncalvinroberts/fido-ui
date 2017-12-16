@@ -9,7 +9,7 @@ const sassOptionsDefaults = {
 
 const sassGenerator = {
   sassVariable (name, value) {
-    return "$" + name + ": " + value + ";"
+    return `$${name}: ${value};`
   },
   sassVariables (variablesObj) {
     return Object.keys(variablesObj).map((name) => {
@@ -17,7 +17,7 @@ const sassGenerator = {
     }).join('\n')
   },
   sassImport (path) {
-    return "@import '" + path + "';"
+    return `@import '${path}';`
   }
 }
 
