@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 //command line config stuff
-const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
 const vorpal = require('vorpal')()
@@ -64,7 +63,6 @@ vorpal
         log(chalk.green('color codes check out!'))
         creatFidoConfig(resultObj)
         .then(res => {
-          console.log(res)
           log(chalk.green`
           yoooo
           nice job
