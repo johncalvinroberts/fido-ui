@@ -7,13 +7,19 @@ const vorpal = require('vorpal')()
 const log = console.log
 
 //compile functions
-const creatFidoConfig = require('./create-fido-config')
+const createFidoConfig = require('./create-fido-config')
 
 
 const pagePresets = [{id: 1, name: 'goober', title: 'fucko'}, {id: 2, name: 'dober', title: 'fucko'}, {id: 3, name: 'freedom', title: 'fucko'}]
 const componentPresets = [{id: 1, name: 'goober', title: 'fucko'}, {id: 2, name: 'dober', title: 'fucko'}, {id: 3, name: 'freedom', title: 'fucko'}]
 
-
+function getProjectName (that) {
+  return that.prompt({
+    type: 'input',
+    name: 'projectName',
+    message: 'Please enter your project name: '
+  })
+}
 
 function getPrimaryHex(that) {
   return that.prompt({
@@ -43,34 +49,41 @@ vorpal
               new fido project!!! 🐶 🐶
               Let's generate the base styles first.
         `)
-    getPrimaryHex(this)
-    .then(result => {
-      getSecondaryHex(this)
-      .then(secondResult => {
-        const resultObj = {
-          primary: result.primaryHex,
-          secondary: secondResult.secondaryHex
-        }
-        //regex for valid hexidecimal color codes, hashtag optional
-        const regex = /^(#)?([0-9a-fA-F]{3})([0-9a-fA-F]{3})?$/
-        for (const key in resultObj){
-          if (!regex.test(resultObj[key])){
-            return log(chalk.red`Oopsies!!! Please enter a valid hex color code for ${key}`)
+    getProjectName(this)
+    .then(projectName => {
+      getPrimaryHex(this)
+      .then(result => {
+        getSecondaryHex(this)
+        .then(secondResult => {
+          const resultObj = {
+            name: projectName.projectName,
+            styles: {
+              primary: result.primaryHex,
+              secondary: secondResult.secondaryHex
+            }
           }
-          const arr = resultObj[key].split('')
-          if (arr[0] !== '#') resultObj[key] = `#${resultObj[key]}`
-        }
-        log(chalk.green('color codes check out!'))
-        creatFidoConfig(resultObj)
-        .then(res => {
-          log(chalk.green`
-          yoooo
-          nice job
-          created your config file and a base style sheet!!!
-          `)
-        })
-        .catch(err => log(chalk.red(err)))
+          //regex for valid hexidecimal color codes, hashtag optional
+          const regex = /^(#)?([0-9a-fA-F]{3})([0-9a-fA-F]{3})?$/
+          for (const key in resultObj.styles){
+            if (!regex.test(resultObj.styles[key])){
+              return log(chalk.red`Oopsies!!! Please enter a valid hex color code for ${key}`)
+            }
+            const arr = resultObj.styles[key].split('')
+            if (arr[0] !== '#') resultObj.styles[key] = `#${resultObj.styles[key]}`
+          }
+          log(chalk.green('color codes check out!'))
+          createFidoConfig(resultObj)
+          .then(res => {
+            log(chalk.green`
+            yoooo
+            nice job
+            created your config file and a base style sheet!!!
+            `)
+          })
+          .catch(err => log(chalk.red(err)))
 
+        })
+        .catch(error => chalk.error(log(error)))
       })
       .catch(error => chalk.error(log(error)))
     })
