@@ -1,0 +1,63 @@
+/*
+  The SCSS basefile for what will be transpiled into app.wxss
+*/
+
+
+@import 'default-variables';
+
+page{
+    background-color: #fff;
+    font-size: 14px;
+    font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+    min-height: 100vh;
+}
+
+.color-primary {
+  color: $primary !important;
+}
+
+.btn{
+  border-radius: 0;
+  padding: 10rpx 25rpx;
+  &:after{
+    display: none;
+  }
+}
+
+.btn-primary {
+  background-color: $primary;
+}
+
+.btn-seconary {
+  background-color: $secondary;
+}
+
+//basic container
+.container{
+  height: auto;
+  width: 100%;
+  position: relative;
+  display: block;
+  justify-content: unset;
+  padding: 20rpx;
+  overflow: auto;
+}
+
+
+//vertical center container
+.container-flex {
+  height: auto;
+  width: 100%;
+  position: relative;
+  display: flex;
+  display:-webkit-flex;
+  flex-direction: column;
+  -webkit-flex-direction:column;
+  justify-content: center;
+  -webkit-justify-content: center;
+  resize: vertical;
+  overflow: auto;
+  align-items: center;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
