@@ -1,8 +1,9 @@
 const sass = require('node-sass')
+const fs = require('fs-extra')
 
 const sassOptionsDefaults = {
   includePaths: ['src/styles'],
-  outputStyle: 'compressed'
+  outputStyle: 'expanded'
 }
 
 
@@ -23,7 +24,7 @@ const sassGenerator = {
 
 
 
-function compileSass(scssEntry, variables) {
+function compileSass(scssEntry, variables, filePath) {
   return new Promise((resolve, reject) => {
     const dataString = sassGenerator.sassVariables(variables) + sassGenerator.sassImport(scssEntry)
     const sassOptions = Object.assign({}, sassOptionsDefaults, {data: dataString})
@@ -31,7 +32,10 @@ function compileSass(scssEntry, variables) {
       if (err) {
         reject(err)
       } else {
-        resolve(result.css.toString())
+        const cssString = result.css.toString()
+        fs.outputFile(filePath, cssString)
+        .then(res => resolve(res))
+        .catch(err => reject(err))
       }
     })
   })
