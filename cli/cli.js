@@ -16,64 +16,66 @@ const componentPresets = [{id: 1, name: 'goober', title: 'fucko'}, {id: 2, name:
 
 const fidoFile = fs.pathExistsSync('./fidofile.json')
 
-function getProjectName (that) {
-  return that.prompt({
-    type: 'input',
-    name: 'projectName',
-    message: 'Please enter your project name: '
-  })
-}
-
-function getPrimaryHex(that) {
-  return that.prompt({
-    type: 'input',
-    name: 'primaryHex',
-    message: 'Please enter primary hexcode for your project: '
-  })
-}
-
-function getSecondaryHex (that) {
-  return that.prompt({
-    type: 'input',
-    name: 'secondaryHex',
-    message: 'Please enter secondary hexcode for your project: '
-  })
-}
-
-function getColors(that, projectName) {
-  getPrimaryHex(that)
-  .then(result => {
-    getSecondaryHex(that)
-    .then(secondResult => {
-      const resultObj = {
-        name: projectName,
-        styles: {
-          primary: result.primaryHex,
-          secondary: secondResult.secondaryHex
-        }
-      }
-      //regex for validating hexidecimal color codes, hashtag optional
-      const regex = /^(#)?([0-9a-fA-F]{3})([0-9a-fA-F]{3})?$/
-      for (const key in resultObj.styles){
-        if (!regex.test(resultObj.styles[key])){
-          return log(chalk.red`Oopsies!!! Please enter a valid hex color code for ${key}`)
-        }
-        const arr = resultObj.styles[key].split('')
-        if (arr[0] !== '#') resultObj.styles[key] = `#${resultObj.styles[key]}`
-      }
-      log(chalk.green('color codes check out!'))
-      createFidoConfig(resultObj)
-      .then(res => {
-        log(chalk.green`
-        nice job!!
-        you created your config file and a base style sheet!!!
-        `)
-      })
-      .catch(err => log(chalk.red(err)))
-
+const vorpalFuncs = {
+  getProjectName (that) {
+    return that.prompt({
+      type: 'input',
+      name: 'projectName',
+      message: 'Please enter your project name: '
     })
-    .catch(error => chalk.error(log(error)))
-  })
+  },
+
+  getPrimaryHex(that) {
+    return that.prompt({
+      type: 'input',
+      name: 'primaryHex',
+      message: 'Please enter primary hexcode for your project: '
+    })
+  },
+
+  getSecondaryHex (that) {
+    return that.prompt({
+      type: 'input',
+      name: 'secondaryHex',
+      message: 'Please enter secondary hexcode for your project: '
+    })
+  },
+
+  getColors(that, projectName) {
+    this.getPrimaryHex(that)
+    .then(result => {
+      this.getSecondaryHex(that)
+      .then(secondResult => {
+        const resultObj = {
+          name: projectName,
+          styles: {
+            primary: result.primaryHex,
+            secondary: secondResult.secondaryHex
+          }
+        }
+        //regex for validating hexidecimal color codes, hashtag optional
+        const regex = /^(#)?([0-9a-fA-F]{3})([0-9a-fA-F]{3})?$/
+        for (const key in resultObj.styles){
+          if (!regex.test(resultObj.styles[key])){
+            return log(chalk.red`Oopsies!!! Please enter a valid hex color code for ${key}`)
+          }
+          const arr = resultObj.styles[key].split('')
+          if (arr[0] !== '#') resultObj.styles[key] = `#${resultObj.styles[key]}`
+        }
+        log(chalk.green('color codes check out!'))
+        createFidoConfig(resultObj)
+        .then(res => {
+          log(chalk.green`
+          nice job!!
+          you created your config file and a base style sheet!!!
+          `)
+        })
+        .catch(err => log(chalk.red(err)))
+
+      })
+      .catch(error => chalk.error(log(error)))
+    })
+  }
 }
 
 
@@ -96,10 +98,10 @@ vorpal
               Let's generate the base styles first.
         `)
 
-      getProjectName(this)
+      vorpalFuncs.getProjectName(this)
       .then(projectName => {
         const nonObjProjName = projectName.projectName
-        getColors(this, nonObjProjName)
+        vorpalFuncs.getColors(this, nonObjProjName)
       })
       .catch(error => chalk.error(log(error)))
     }
@@ -162,7 +164,7 @@ vorpal
           fs.readJson('./fidofile.json')
           .then(fileObj =>{
             const name = fileObj.name
-            getColors(this, name)
+            vorpalFuncs.getColors(this, name)
           })
           .catch(err => console.log(err))
         }
