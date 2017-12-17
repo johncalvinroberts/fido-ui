@@ -7,7 +7,7 @@ function renameNewComponents(targetName, targetDir, presetName) {
     fs.readdir(targetDir)
     .then((res) => {
       res.map(file => {
-        try{
+        try {
           let newName = file.replace(presetName, targetName)
           fs.renameSync(`${targetDir}/${file}`, `${targetDir}/${newName}`)
         } catch (err){
