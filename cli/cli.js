@@ -141,7 +141,7 @@ vorpal
     .description('Generate a new component from a fido preset')
     .action(function(input) {
       log(`
-            Creating a new component named ${input.compName}
+          Creating a new component named ${input.compName}
         `)
       log(input.compName)
       this.prompt({
@@ -155,7 +155,18 @@ vorpal
       })
       .then(result => {
         createComponent(result.compPreset, input.compName)
-        .then(res => log('success!! find your new component and require it into pages you want like this:(demo)'))
+        .then(res => {
+          const componentName = (input.compName.toString())
+          log(chalk.green`
+            success!!🎄 👌
+            find your new component and add it to the json file of pages you want like this: `)
+          log(chalk.magenta(`
+                "usingComponents": {
+                  "${componentName}": "/components/${componentName}/${componentName}"
+                }
+
+            `))
+        })
         .catch(err => log('哎 failed'))
       })
       .catch(error => chalk.error(log(error)))
