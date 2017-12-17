@@ -5,16 +5,28 @@ const path = require('path')
 const chalk = require('chalk')
 const vorpal = require('vorpal')()
 const fs = require('fs-extra')
+const { join } = require('path')
 const log = console.log
+
+
+//Get the contents of the components & pages directorys
+const isDirectory = source => fs.lstatSync(source).isDirectory()
+
+function getDirectories (source) {
+  const resolvedSrc = source
+  const dirConts = fs.readdirSync(resolvedSrc).filter(file => fs.statSync(path.join(source, file)).isDirectory())
+  return dirConts
+}
+
+
+const pagePresets = getDirectories('src/pages')
+const componentPresets = getDirectories('src/components')
+const fidoFile = fs.pathExistsSync('./fidofile.json')
 
 //compile functions
 const createFidoConfig = require('./create-fido-config')
 
 
-const pagePresets = [{id: 1, name: 'goober', title: 'fucko'}, {id: 2, name: 'dober', title: 'fucko'}, {id: 3, name: 'freedom', title: 'fucko'}]
-const componentPresets = [{id: 1, name: 'goober', title: 'fucko'}, {id: 2, name: 'dober', title: 'fucko'}, {id: 3, name: 'freedom', title: 'fucko'}]
-
-const fidoFile = fs.pathExistsSync('./fidofile.json')
 
 const vorpalFuncs = {
   getProjectName (that) {
@@ -93,9 +105,9 @@ vorpal
       vorpal.execSync('edit')
     } else {
       log(chalk.green`
-              汪汪汪
-              new fido project!!! 🐶 🐶
-              Let's generate the base styles first.
+              汪汪汪汪汪   FIDO  汪汪汪汪汪
+            new fido project!!! 🐶 🐶
+            Let's generate the base styles first.
         `)
 
       vorpalFuncs.getProjectName(this)
@@ -113,7 +125,6 @@ vorpal
   .description('Generate a new page from a fido preset')
   .action(function(pageName) {
     log(`
-          汪汪
           Creating a new page named ${pageName}
       `)
     this.prompt({
@@ -134,15 +145,14 @@ vorpal
     .description('Generate a new component from a fido preset')
     .action(function(compName) {
       log(`
-            汪
             Creating a new component named ${compName}
         `)
       this.prompt({
         type: 'list',
         name: 'compPreset',
         choices: componentPresets.map((comp) => ({
-          name: `${comp.title} | ${comp.name} | ${comp.id}`,
-          value: comp.id
+          name: comp,
+          value: comp
         })),
         message: 'Please choose the component preset: '
       })

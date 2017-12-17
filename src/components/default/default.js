@@ -4,9 +4,9 @@ Component({
   data:{},
   methods: {},
   // lifecycle hooks
-  created: function(){},
-  ready: function(){},
-  attached: function(){},
-  moved: function(){},
-  detached: function(){}
+  created (){},
+  ready (){},
+  attached (){},
+  moved (){},
+  detached (){}
 })
