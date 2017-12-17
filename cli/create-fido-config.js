@@ -22,7 +22,7 @@ function createConfig (stylesObj) {
 
     const filePath = './app.wxss'
     Promise.all([
-      compileStyles('src/styles/app.scss', stylesObj.styles, filePath),
+      compileStyles(__dirname + '/../src/styles/app.scss', stylesObj.styles, filePath),
       createFidoFile(stylesObj)
     ])
     .then(res => resolve(res))
