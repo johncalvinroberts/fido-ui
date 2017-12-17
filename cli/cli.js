@@ -5,29 +5,27 @@ const path = require('path')
 const chalk = require('chalk')
 const vorpal = require('vorpal')()
 const fs = require('fs-extra')
-const { join } = require('path')
 const log = console.log
 
+//compile functions
+const createFidoConfig = require('./create-fido-config')
+const createComponent = require('./create-component')
+const createPage = require('./create-page')
 
-//Get the contents of the components & pages directorys
+//Get an array of the names of all directories in a source directory
 const isDirectory = source => fs.lstatSync(source).isDirectory()
-
 function getDirectories (source) {
-  const resolvedSrc = source
-  const dirConts = fs.readdirSync(resolvedSrc).filter(file => fs.statSync(path.join(source, file)).isDirectory())
-  return dirConts
+  const dirConts = fs.readdirSync(source)
+  return dirConts.filter(file => fs.statSync(path.join(source, file)).isDirectory())
 }
 
-
+//Get the contents of the components & pages directorys, check if fidofile is present
 const pagePresets = getDirectories('src/pages')
 const componentPresets = getDirectories('src/components')
 const fidoFile = fs.pathExistsSync('./fidofile.json')
 
-//compile functions
-const createFidoConfig = require('./create-fido-config')
 
-
-
+//Put re-usable vorpal functions in an object, out of global scope
 const vorpalFuncs = {
   getProjectName (that) {
     return that.prompt({
@@ -74,11 +72,10 @@ const vorpalFuncs = {
           const arr = resultObj.styles[key].split('')
           if (arr[0] !== '#') resultObj.styles[key] = `#${resultObj.styles[key]}`
         }
-        log(chalk.green('color codes check out!'))
         createFidoConfig(resultObj)
         .then(res => {
           log(chalk.green`
-          nice job!!
+          nice!!
           you created your config file and a base style sheet!!!
           `)
         })
@@ -92,7 +89,7 @@ const vorpalFuncs = {
 
 
 
-//initialize a project
+//From here down, we define the actual Vorpal commands
 vorpal
   .command('init')
   .description('Initialize a fido project.')
@@ -105,15 +102,14 @@ vorpal
       vorpal.execSync('edit')
     } else {
       log(chalk.green`
-              汪汪汪汪汪   FIDO  汪汪汪汪汪
+            汪汪汪汪汪   FIDO  汪汪汪汪汪
             new fido project!!! 🐶 🐶
             Let's generate the base styles first.
         `)
 
       vorpalFuncs.getProjectName(this)
-      .then(projectName => {
-        const nonObjProjName = projectName.projectName
-        vorpalFuncs.getColors(this, nonObjProjName)
+      .then(res => {
+        vorpalFuncs.getColors(this, res.projectName)
       })
       .catch(error => chalk.error(log(error)))
     }
@@ -143,10 +139,11 @@ vorpal
 vorpal
     .command('component <compName>')
     .description('Generate a new component from a fido preset')
-    .action(function(compName) {
+    .action(function(input) {
       log(`
-            Creating a new component named ${compName}
+            Creating a new component named ${input.compName}
         `)
+      log(input.compName)
       this.prompt({
         type: 'list',
         name: 'compPreset',
@@ -156,7 +153,11 @@ vorpal
         })),
         message: 'Please choose the component preset: '
       })
-      .then(result => log(result))
+      .then(result => {
+        createComponent(result.compPreset, input.compName)
+        .then(res => log('success!! find your new component and require it into pages you want like this:(demo)'))
+        .catch(err => log('哎 failed'))
+      })
       .catch(error => chalk.error(log(error)))
   })
 
@@ -183,7 +184,7 @@ vorpal
     })
 
 
-//parse the node TTY instance into vorpal lol
+//parse the node TTY instance into vorpal and launch this guy lol
 vorpal
   .version('0.0.1')
   .delimiter('')
