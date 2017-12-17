@@ -1,7 +1,7 @@
 # fido
 
 A UI library for WeChat Mini Programs, wrapped inside a handy CLI.
-Scaffold pre-styled components & pages into your Mini Porgram working directory right from the command line.
+Scaffold pre-styled components & pages into your Mini Program working directory right from the command line.
 
 
 
@@ -27,8 +27,8 @@ If you want to change these colors, just run:
 ```bash
 fido edit
 ```
-...upon which your theme colors will be swapped out.
-THIS IS NOT DONE YET. Need to recursively recompile all stylesheets in the working directory, swapping out the primary and secondary colors.
+...upon which your theme colors will be swapped out(hopefully).
+THIS IS NOT DONE YET Need to recursively recompile all stylesheets in the working directory, swapping out the primary and secondary colors.
 
 ## Adding a component
 
