@@ -1,6 +1,6 @@
 {
   "name": "fido-ui",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Command line interface for integraing fido UI into your WeChat mini program",
   "repository": {
     "type": "git",
