@@ -20,8 +20,8 @@ function getDirectories (source) {
 }
 
 //Get the contents of the components & pages directorys, check if fidofile is present
-const pagePresets = getDirectories('src/pages')
-const componentPresets = getDirectories('src/components')
+const pagePresets = getDirectories(__dirname + '/../src/pages')
+const componentPresets = getDirectories(__dirname + '/../src/components')
 const fidoFile = fs.pathExistsSync('./fidofile.json')
 
 
